@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Materia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class MateriaController extends Controller
 {
@@ -20,7 +22,7 @@ class MateriaController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('materias/create');
     }
 
     /**
@@ -28,7 +30,25 @@ class MateriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'materias' => 'required|array',
+            'materias.*.nombre' => 'required|string|max:255',
+        ], [
+            'materias.required' => 'Se requiere al menos una materia',
+            'materias.*.nombre.required' => 'El nombre de la materia es obligatorio',
+            'materias.*.nombre.string' => 'El nombre de la materia debe ser una cadena de texto',
+            'materias.*.nombre.max' => 'El nombre de la materia debe tener menos de 255 caracteres',
+        ]);
+
+        foreach ($request->materias as $materia) {
+            Materia::create([
+                'user_id' => Auth::user()->id,
+                'nombre' => $materia['nombre'],
+            ]);
+        }
+
+        return redirect()->route('dashboard');
     }
 
     /**
