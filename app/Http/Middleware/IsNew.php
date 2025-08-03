@@ -17,6 +17,9 @@ class IsNew
     public function handle(Request $request, Closure $next): Response
     {
 
+        if (!Auth::user()) {
+            return $next($request);
+        }
         if (Auth::user()->new) {
             return $next($request);
         }

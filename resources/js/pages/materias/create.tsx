@@ -37,7 +37,7 @@ export default function Create() {
     e.preventDefault();
     post(route('materias.store'), {
       onSuccess: () => {
-        router.get(route('clases.create'));
+        router.get(route('clases.create', { dia: 'Lunes' }));
       },
     });
   };
