@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 type Props = {
   dia: string,
   materias: Array<{ id: number, nombre: string }>,
+  className?: string,
   clases: Array<{ 
     id: number, 
     dia: string,
@@ -12,12 +13,12 @@ type Props = {
     materia_id: number }>
 }
 
-export default function CardMateria({ dia, materias, clases }: Props) {
+export default function CardMateria({ dia, materias, clases, className }: Props) {
   return (
    <>
-      <div className="flex flex-col gap-4 text-center">
+      <div className={`flex flex-col gap-4 text-center ${className}`}>
         <h1>{dia}</h1>
-        {clases.filter((clase) => clase.dia === dia).map((clase) => (
+        {clases.map((clase) => (
           <Card key={clase.id}>
             <CardContent>
               <p>{materias.find((materia) => materia.id === clase.materia_id)?.nombre}</p>
