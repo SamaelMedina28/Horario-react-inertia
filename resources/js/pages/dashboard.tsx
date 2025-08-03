@@ -1,10 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import {
-    Card,
-    CardContent,
-} from "@/components/ui/card"
+import CardMateria from '@/components/customs/card-materia';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
@@ -17,66 +14,11 @@ export default function Dashboard({ clases, materias }: { clases: Array<{ id: nu
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex w-full justify-center h-full flex-1 gap-4 rounded-xl p-4 overflow-x-auto">
-                <div className="flex flex-col gap-4 text-center">
-                    <h1>Lunes</h1>
-                    {clases.filter((clase) => clase.dia === 'Lunes').map((clase) => (
-                        <Card key={clase.id}>
-                            <CardContent>
-                                <p>{materias.find((materia) => materia.id === clase.materia_id)?.nombre}</p>
-                                <p>{clase.hora_inicio}</p>
-                                <p>{clase.hora_fin}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-                <div className="flex flex-col gap-4 text-center">
-                    <h1>Martes</h1>
-                    {clases.filter((clase) => clase.dia === 'Martes').map((clase) => (
-                        <Card key={clase.id}>
-                            <CardContent>
-                                <p>{materias.find((materia) => materia.id === clase.materia_id)?.nombre}</p>
-                                <p>{clase.hora_inicio}</p>
-                                <p>{clase.hora_fin}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-                <div className="flex flex-col gap-4 text-center">
-                    <h1>Miercoles</h1>
-                    {clases.filter((clase) => clase.dia === 'Miercoles').map((clase) => (
-                        <Card key={clase.id}>
-                            <CardContent>
-                                <p>{materias.find((materia) => materia.id === clase.materia_id)?.nombre}</p>
-                                <p>{clase.hora_inicio}</p>
-                                <p>{clase.hora_fin}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-                <div className="flex flex-col gap-4 text-center">
-                    <h1>Jueves</h1>
-                    {clases.filter((clase) => clase.dia === 'Jueves').map((clase) => (
-                        <Card key={clase.id}>
-                            <CardContent>
-                                <p>{materias.find((materia) => materia.id === clase.materia_id)?.nombre}</p>
-                                <p>{clase.hora_inicio}</p>
-                                <p>{clase.hora_fin}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-                <div className="flex flex-col gap-4 text-center">
-                    <h1>Viernes</h1>
-                    {clases.filter((clase) => clase.dia === 'Viernes').map((clase) => (
-                        <Card key={clase.id}>
-                            <CardContent>
-                                <p>{materias.find((materia) => materia.id === clase.materia_id)?.nombre}</p>
-                                <p>{clase.hora_inicio}</p>
-                                <p>{clase.hora_fin}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                <CardMateria dia="Lunes" materias={materias} clases={clases} />
+                <CardMateria dia="Martes" materias={materias} clases={clases} />
+                <CardMateria dia="Miercoles" materias={materias} clases={clases} />
+                <CardMateria dia="Jueves" materias={materias} clases={clases} />
+                <CardMateria dia="Viernes" materias={materias} clases={clases} />
             </div>
         </AppLayout>
     );
