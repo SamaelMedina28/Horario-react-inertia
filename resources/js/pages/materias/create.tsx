@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash } from 'lucide-react';
+import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -34,7 +35,11 @@ export default function Create() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    post(route('materias.store'));
+    post(route('materias.store'), {
+      onSuccess: () => {
+        router.get(route('clases.create'));
+      },
+    });
   };
 
   return (

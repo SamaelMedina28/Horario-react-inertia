@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clase;
+use App\Models\Materia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ClaseController extends Controller
 {
@@ -14,13 +17,14 @@ class ClaseController extends Controller
     {
         //
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        $materias = Materia::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('clases/create', compact('materias'));
     }
 
     /**
