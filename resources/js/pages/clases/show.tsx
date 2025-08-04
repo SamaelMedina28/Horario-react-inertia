@@ -1,9 +1,10 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { BorderBeam } from '@/components/magicui/border-beam';
+import { ShimmerButton } from "@/components/magicui/shimmer-button";
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Clases',
@@ -33,7 +34,7 @@ export default function Show({ clase, materia }: Props) {
       <Head title="Dashboard" />
       <div className="flex w-full flex-col justify-center items-center gap-4 p-4 overflow-x-auto">
         <h1>{clase.dia}</h1>
-        <Card className="rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2 py-6 w-xl mx-auto">
+        <Card className="rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2 py-6 w-xl mx-auto relative overflow-hidden">
           <CardContent className="flex flex-col gap-2">
             <div className="my-2">
               <strong>Materia:</strong>
@@ -62,11 +63,17 @@ export default function Show({ clase, materia }: Props) {
               </div>
             </div>
           </CardContent>
+          <BorderBeam
+            size={200}
+            duration={7}
+            borderWidth={2}
+            colorFrom="#22c55e"  // Verde vibrante pero profesional
+            colorTo="#86efac"    // Verde claro suave
+            delay={0.5}
+          />
         </Card>
         <Link href={route('dashboard')} className="flex items-center">
-          <Button variant="default" className="flex items-center rounded-full">
-            <ChevronLeft/>
-          </Button>
+            <ShimmerButton className="flex items-center dark:text-white py-1.5 px-3"><ChevronLeft/></ShimmerButton>
         </Link>
       </div>
     </AppLayout>
