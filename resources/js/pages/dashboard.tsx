@@ -33,7 +33,7 @@ export default function Dashboard({ clases, materias }: Props) {
     useEffect(() => {
         if (!swiperRef.current) return;
         const diaActual = new Date().getDay();
-        if (diaActual === 0 || diaActual === 6) goToSlide(0); else goToSlide(diaActual-1);
+        if (diaActual === 0 || diaActual === 6) goToSlide(0); else goToSlide(diaActual - 1);
     }, [clases]);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

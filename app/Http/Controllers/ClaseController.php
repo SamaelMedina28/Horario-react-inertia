@@ -15,7 +15,9 @@ class ClaseController extends Controller
      */
     public function index()
     {
-        //
+        $clases = Clase::select('dia', 'hora_inicio', 'hora_fin', 'materia_id', 'id')->where('user_id', Auth::user()->id)->get();
+        $materias = Materia::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('dashboard', compact('clases', 'materias'));
     }
     
     /**
@@ -86,7 +88,8 @@ class ClaseController extends Controller
      */
     public function show(Clase $clase)
     {
-        //
+        $materia = Materia::find($clase->materia_id);
+        return Inertia::render('clases/show', compact('clase', 'materia'));
     }
 
     /**

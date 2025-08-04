@@ -13,11 +13,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        $clases = Clase::where('user_id', Auth::user()->id)->get();
-        $materias = Materia::where('user_id', Auth::user()->id)->get();
-        return Inertia::render('dashboard', compact('clases', 'materias'));
-    })->name('dashboard');
+    Route::get('dashboard', [ClaseController::class, 'index'])->name('dashboard');
+
+    Route::get('clases/{clase}', [ClaseController::class, 'show'])->name('clases.show');
 });
 
 Route::middleware(['auth', 'verified', 'is_new'])->group(function () {
