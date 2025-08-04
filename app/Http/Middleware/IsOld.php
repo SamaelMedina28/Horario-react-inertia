@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class IsNew
+class IsOld
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class IsNew
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->new) {
-            return $next($request);
+            return redirect()->route('materias.create');
         }
-        return redirect()->route('dashboard');
+        return $next($request);
     }
 }

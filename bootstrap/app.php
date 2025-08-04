@@ -3,6 +3,7 @@
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\IsNew;
+use App\Http\Middleware\IsOld;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,14 +19,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->alias([
-            'is_new' => IsNew::class
+            'is_new' => IsNew::class,
+            'is_old' => IsOld::class
         ]);
 
         $middleware->web(append: [
             HandleAppearance::class,
             HandleInertiaRequests::class,
-            AddLinkHeadersForPreloadedAssets::class,
-            'is_new'
+            AddLinkHeadersForPreloadedAssets::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

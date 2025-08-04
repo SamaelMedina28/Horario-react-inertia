@@ -26,6 +26,9 @@ class ClaseController extends Controller
     public function create($dia)
     {
         $materias = Materia::where('user_id', Auth::user()->id)->get();
+        if($materias->isEmpty()){
+            return redirect()->route('materias.create');
+        }
         return Inertia::render('clases/create', compact('materias', 'dia'));
     }
 
@@ -66,6 +69,13 @@ class ClaseController extends Controller
             'clases.*.materia_id.required' => 'La materia es obligatoria',
             'clases.*.materia_id.integer' => 'La materia debe ser un numero entero',
         ]);
+
+        if($request->clases[0]['dia'] == 'Viernes' || $request->clases[0]['dia'] == 'viernes'){
+            Auth::user()->update([
+                'new' => false,
+            ]);
+        }
+
 
         foreach ($request->clases as $clase) {
             Clase::create([

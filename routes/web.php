@@ -12,9 +12,8 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'is_old'])->group(function () {
     Route::get('dashboard', [ClaseController::class, 'index'])->name('dashboard');
-
     Route::get('clases/{clase}', [ClaseController::class, 'show'])->name('clases.show');
 });
 
