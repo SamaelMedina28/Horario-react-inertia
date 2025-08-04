@@ -20,8 +20,8 @@ export default function CardMateria({ dia, materias, clases, className }: Props)
   if (clases.length === 0) return (
     <div className={`flex flex-col gap-4 text-center ${className}`}>
       <h1>{dia}</h1>
-      <Card className="h-full flex items-center justify-center py-8">
-        <CardContent className="flex flex-col items-center gap-3 text-center p-4">
+      <Card className="h-full flex items-center justify-center">
+        <CardContent className="flex flex-col items-center gap-3 text-center">
           <Ban className="w-10 h-10 text-neutral-400 dark:text-neutral-500" />
           <div>
             <h3 className="font-medium text-neutral-700 dark:text-neutral-300">Sin clases programadas</h3>
