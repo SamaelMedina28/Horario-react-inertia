@@ -15,18 +15,18 @@ class ClaseController extends Controller
      */
     public function index()
     {
-        $clases = Clase::select('dia', 'hora_inicio', 'hora_fin', 'materia_id', 'id')->where('user_id', Auth::user()->id)->get();
+        $clases = Clase::select('dia', 'hora_inicio', 'hora_fin', 'materia_id', 'id')->where('user_id', Auth::user()->id)->orderBy('hora_inicio', 'asc')->get();
         $materias = Materia::where('user_id', Auth::user()->id)->get();
         return Inertia::render('dashboard', compact('clases', 'materias'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
     public function create($dia)
     {
         $materias = Materia::where('user_id', Auth::user()->id)->get();
-        if($materias->isEmpty()){
+        if ($materias->isEmpty()) {
             return redirect()->route('materias.create');
         }
         return Inertia::render('clases/create', compact('materias', 'dia'));
@@ -70,7 +70,7 @@ class ClaseController extends Controller
             'clases.*.materia_id.integer' => 'La materia debe ser un numero entero',
         ]);
 
-        if($request->clases[0]['dia'] == 'Viernes' || $request->clases[0]['dia'] == 'viernes'){
+        if ($request->clases[0]['dia'] == 'Viernes' || $request->clases[0]['dia'] == 'viernes') {
             $this->updateNew();
         }
 
@@ -103,17 +103,93 @@ class ClaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Clase $clase)
+    public function edit($dia)
     {
-        //
+        $clasesAnteriores = Clase::where('user_id', Auth::id())
+            ->where('dia', $dia)
+            ->orderBy('hora_inicio', 'asc')
+            ->get();
+
+        $materias = Materia::where('user_id', Auth::id())->get();
+
+        return Inertia::render('clases/edit', [
+            'clasesAnteriores' => $clasesAnteriores,
+            'materias' => $materias,
+            'dia' => $dia
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Clase $clase)
+    public function update(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'clases' => 'required|array',
+                'clases.*.dia' => 'required|string|max:255',
+                'clases.*.profesor' => 'required|string|max:255',
+                'clases.*.salon' => 'required|string|max:255',
+                'clases.*.edificio' => 'required|string|max:255',
+                'clases.*.hora_inicio' => 'required|string|max:255',
+                'clases.*.hora_fin' => 'required|string|max:255',
+                'clases.*.materia_id' => 'required|integer',
+            ],
+            [
+                'clases.required' => 'Se requiere al menos una clase',
+                'clases.*.dia.required' => 'El dia es obligatorio',
+                'clases.*.dia.string' => 'El dia debe ser una cadena de texto',
+                'clases.*.dia.max' => 'El dia debe tener menos de 255 caracteres',
+                'clases.*.profesor.required' => 'El profesor es obligatorio',
+                'clases.*.profesor.string' => 'El profesor debe ser una cadena de texto',
+                'clases.*.profesor.max' => 'El profesor debe tener menos de 255 caracteres',
+                'clases.*.salon.required' => 'El salon es obligatorio',
+                'clases.*.salon.string' => 'El salon debe ser una cadena de texto',
+                'clases.*.salon.max' => 'El salon debe tener menos de 255 caracteres',
+                'clases.*.edificio.required' => 'El edificio es obligatorio',
+                'clases.*.edificio.string' => 'El edificio debe ser una cadena de texto',
+                'clases.*.edificio.max' => 'El edificio debe tener menos de 255 caracteres',
+                'clases.*.hora_inicio.required' => 'La hora de inicio es obligatoria',
+                'clases.*.hora_inicio.string' => 'La hora de inicio debe ser una cadena de texto',
+                'clases.*.hora_inicio.max' => 'La hora de inicio debe tener menos de 255 caracteres',
+                'clases.*.hora_fin.required' => 'La hora de fin es obligatoria',
+                'clases.*.hora_fin.string' => 'La hora de fin debe ser una cadena de texto',
+                'clases.*.hora_fin.max' => 'La hora de fin debe tener menos de 255 caracteres',
+                'clases.*.materia_id.required' => 'La materia es obligatoria',
+                'clases.*.materia_id.integer' => 'La materia debe ser un numero entero',
+            ]
+        );
+
+        $user = Auth::user();
+
+        foreach ($request->clases as $claseData) {
+            if ($claseData['id'] > 0) {
+                // Actualizar clase existente
+                $user->clases()
+                    ->where('id', $claseData['id'])
+                    ->update([
+                        'profesor' => $claseData['profesor'],
+                        'salon' => $claseData['salon'],
+                        'edificio' => $claseData['edificio'],
+                        'hora_inicio' => $claseData['hora_inicio'],
+                        'hora_fin' => $claseData['hora_fin'],
+                        'materia_id' => $claseData['materia_id'],
+                    ]);
+            } else {
+                // Crear nueva clase
+                $user->clases()->create([
+                    'dia' => $claseData['dia'],
+                    'profesor' => $claseData['profesor'],
+                    'salon' => $claseData['salon'],
+                    'edificio' => $claseData['edificio'],
+                    'hora_inicio' => $claseData['hora_inicio'],
+                    'hora_fin' => $claseData['hora_fin'],
+                    'materia_id' => $claseData['materia_id'],
+                ]);
+            }
+        }
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -121,11 +197,14 @@ class ClaseController extends Controller
      */
     public function destroy(Clase $clase)
     {
-        //
+        $clase->delete();
+
+        return redirect()->route('clases.edit', $clase->dia);
     }
 
-    public function updateNew(){
-        if(Auth::user()->new){
+    public function updateNew()
+    {
+        if (Auth::user()->new) {
             Auth::user()->update([
                 'new' => false,
             ]);

@@ -83,12 +83,17 @@ class MateriaController extends Controller
             'materias.*.nombre.max' => 'El nombre de la materia debe tener menos de 255 caracteres',
         ]);
 
+        $user = Auth::user();
+
         foreach ($request->materias as $materiaData) {
             if ($materiaData['id'] > 0) {
-                Materia::find($materiaData['id'])->update(['nombre' => $materiaData['nombre']]);
+                $user->materias()
+                    ->where('id', $materiaData['id'])
+                    ->update([
+                        'nombre' => $materiaData['nombre'],
+                    ]);
             } else {
-                Materia::create([
-                    'user_id' => Auth::user()->id,
+                $user->materias()->create([
                     'nombre' => $materiaData['nombre'],
                 ]);
             }

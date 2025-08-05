@@ -14,10 +14,16 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', 'is_old'])->group(function () {
     Route::get('dashboard', [ClaseController::class, 'index'])->name('dashboard');
-    Route::get('clases/{clase}', [ClaseController::class, 'show'])->name('clases.show');
+    // ? Materias   
     Route::get('materias/edit', [MateriaController::class, 'edit'])->name('materias.edit');
     Route::post('materias/update', [MateriaController::class, 'update'])->name('materias.update');
     Route::delete('materias/{materia}', [MateriaController::class, 'destroy'])->name('materias.destroy');
+    
+    // ? Clases
+    Route::get('clases/edit/{dia}', [ClaseController::class, 'edit'])->name('clases.edit');
+    Route::post('clases/update', [ClaseController::class, 'update'])->name('clases.update');
+    Route::delete('clases/{clase}', [ClaseController::class, 'destroy'])->name('clases.destroy');
+    Route::get('clases/{clase}', [ClaseController::class, 'show'])->name('clases.show');
 });
 
 Route::middleware(['auth', 'verified', 'is_new'])->group(function () {
