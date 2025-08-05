@@ -21,6 +21,11 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Editar materias',
+        href: route('materias.edit'),
+        icon: BookOpen,
+    },
 ];
 
 const rightNavItems: NavItem[] = [

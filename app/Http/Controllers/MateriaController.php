@@ -62,9 +62,10 @@ class MateriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Materia $materia)
+    public function edit()
     {
-        //
+        $materiasAnteriores = Materia::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('materias/edit', compact('materiasAnteriores'));
     }
 
     /**
@@ -72,7 +73,23 @@ class MateriaController extends Controller
      */
     public function update(Request $request, Materia $materia)
     {
-        //
+        $request->validate([
+            'materias' => 'required|array',
+            'materias.*.nombre' => 'required|string|max:255',
+        ], [
+            'materias.required' => 'Se requiere al menos una materia',
+            'materias.*.nombre.required' => 'El nombre de la materia es obligatorio',
+            'materias.*.nombre.string' => 'El nombre de la materia debe ser una cadena de texto',
+            'materias.*.nombre.max' => 'El nombre de la materia debe tener menos de 255 caracteres',
+        ]);
+
+        foreach ($request->materias as $materia) {
+            Materia::update([
+                'nombre' => $materia['nombre'],
+            ]);
+        }
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -80,6 +97,7 @@ class MateriaController extends Controller
      */
     public function destroy(Materia $materia)
     {
-        //
+        $materia->delete();
+        return redirect()->route('materias.edit');
     }
 }
