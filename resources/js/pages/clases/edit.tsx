@@ -18,7 +18,7 @@ import {
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Clases',
-    href: '/clases',
+    href: '/dashboard',
   },
   {
     title: 'Editar',
@@ -26,11 +26,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function Edit({
-  clasesAnteriores,
-  materias,
-  dia
-}: {
+export default function Edit({ clasesAnteriores, materias, dia }: {
   clasesAnteriores: Array<{
     id: number,
     dia: string,
@@ -59,19 +55,9 @@ export default function Edit({
     }
   >(
     {
-      clases: clasesAnteriores.map(clase => ({
-        id: clase.id,
-        dia: clase.dia,
-        profesor: clase.profesor,
-        salon: clase.salon,
-        edificio: clase.edificio,
-        hora_inicio: clase.hora_inicio,
-        hora_fin: clase.hora_fin,
-        materia_id: clase.materia_id.toString()
-      }))
+      clases: clasesAnteriores
     }
   );
-
   const agregarOtraClase = () => setData('clases', [
     ...data.clases,
     {
@@ -94,6 +80,7 @@ export default function Edit({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     post(route('clases.update'), {
+      preserveScroll: true,
       onSuccess: () => {
         router.get(route('dashboard'));
       },
@@ -107,6 +94,7 @@ export default function Edit({
     } else {
       // Si es una clase existente, hacemos la petición al servidor
       destroy(route('clases.destroy', { id }), {
+        preserveScroll: true,
         onSuccess: () => {
           setData('clases', data.clases.filter((clase) => clase.id !== id));
         },
@@ -123,7 +111,7 @@ export default function Edit({
         <form onSubmit={handleSubmit} className="w-full sm:w-3/4 md:max-w-2xl mx-auto">
           <div className="space-y-6">
             {data.clases.map((clase, index) => (
-              <div key={clase.id || `new-${index}`} className="rounded-lg shadow-sm">
+              <div key={clase.id || `new-${index}`}>
                 <div className="mt-4 text-start font-medium text-muted-foreground">
                   Clase {index + 1}:
                 </div>
@@ -252,10 +240,10 @@ export default function Edit({
                       type="button"
                       size="icon"
                       variant="ghost"
-                      className="text-red-500 hover:text-red-700"
+                      className="rounded-full p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
                       onClick={() => handleDelete(clase.id)}
                     >
-                      <Trash className="w-4 h-4" />
+                      <Trash/>
                     </Button>
                   </div>
                 )}
@@ -263,7 +251,7 @@ export default function Edit({
               </div>
             ))}
           </div>
-
+          {/* Botones de agregar y eliminar */}
           <div className="flex justify-center gap-4 mt-6">
             <Button
               type="button"
@@ -271,7 +259,7 @@ export default function Edit({
               className="rounded-full p-2 bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-800 dark:hover:bg-green-700 dark:text-green-300 transition-all"
               onClick={agregarOtraClase}
             >
-              <Plus className="w-5 h-5" />
+              <Plus/>
               <span className="sr-only">Agregar otra clase</span>
             </Button>
 
@@ -282,7 +270,7 @@ export default function Edit({
               className="rounded-full p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
               onClick={eliminarUltimaClase}
             >
-              <Trash className="w-5 h-5" />
+              <Trash/>
               <span className="sr-only">Eliminar última clase</span>
             </Button>
           </div>

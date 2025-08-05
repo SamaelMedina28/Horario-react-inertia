@@ -34,7 +34,7 @@ export default function Show({ clase, materia }: Props) {
       <Head title="Dashboard" />
       <div className="flex w-full flex-col justify-center items-center gap-4 p-4 overflow-x-auto">
         <h1>{clase.dia}</h1>
-        <Card className="rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2 py-6 sm:w-2/3 sm:max-w-xl mx-auto relative overflow-hidden">
+        <Card className="rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2 py-6 w-full sm:w-2/3 sm:max-w-xl mx-auto relative overflow-hidden">
           <CardContent className="flex flex-col gap-2">
             <div className="my-2">
               <strong>Materia:</strong>

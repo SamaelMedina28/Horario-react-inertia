@@ -18,7 +18,7 @@ type Props = {
 
 export default function CardMateria({ dia, materias, clases, className }: Props) {
   if (clases.length === 0) return (
-    <div className={`flex flex-col gap-4 text-center ${className}`}>
+    <div className={`flex flex-col gap-4 text-center sm:w-2/3 sm:max-w-xl mx-auto`}>
       <h1>{dia}</h1>
       <Card className="h-full flex items-center justify-center">
         <CardContent className="flex flex-col items-center gap-3 text-center">

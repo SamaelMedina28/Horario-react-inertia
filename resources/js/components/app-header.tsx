@@ -17,17 +17,17 @@ import AppearanceToggleDropdown from './appearance-dropdown';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Horario',
         href: '/dashboard',
         icon: LayoutGrid,
     },
     {
-        title: 'Editar materias',
+        title: 'Materias',
         href: route('materias.edit'),
         icon: BookOpen,
     },
     {
-        title: 'Editar clases',
+        title: 'Clases',
         href: route('clases.edit', { dia: 'Lunes' }),
         icon: Book,
     },
@@ -54,6 +54,8 @@ interface AppHeaderProps {
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
+    const { userIsNew } = usePage<{ userIsNew: boolean }>().props;
+    console.log(userIsNew);
     const { auth } = page.props;
     const getInitials = useInitials();
     return (
@@ -63,11 +65,13 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     {/* Mobile Menu */}
                     <div className="lg:hidden">
                         <Sheet>
-                            <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon" className="mr-2 h-[34px] w-[34px]">
-                                    <Menu className="h-5 w-5" />
-                                </Button>
-                            </SheetTrigger>
+                            {!userIsNew && (
+                                <SheetTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="mr-2 h-[34px] w-[34px]">
+                                        <Menu className="h-5 w-5" />
+                                    </Button>
+                                </SheetTrigger>
+                            )}
                             <SheetContent side="left" className="flex h-full w-64 flex-col items-stretch justify-between bg-sidebar">
                                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                                 <SheetHeader className="flex justify-start text-left">
@@ -111,26 +115,28 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     {/* Desktop Navigation */}
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
-                            <NavigationMenuList className="flex h-full items-stretch space-x-2">
-                                {mainNavItems.map((item, index) => (
-                                    <NavigationMenuItem key={index} className="relative flex h-full items-center">
-                                        <Link
-                                            href={item.href}
-                                            className={cn(
-                                                navigationMenuTriggerStyle(),
-                                                page.url === item.href && activeItemStyles,
-                                                'h-9 cursor-pointer px-3',
+                            {!userIsNew && (
+                                <NavigationMenuList className="flex h-full items-stretch space-x-2">
+                                    {mainNavItems.map((item, index) => (
+                                        <NavigationMenuItem key={index} className="relative flex h-full items-center">
+                                            <Link
+                                                href={item.href}
+                                                className={cn(
+                                                    navigationMenuTriggerStyle(),
+                                                    page.url === item.href && activeItemStyles,
+                                                    'h-9 cursor-pointer px-3',
+                                                )}
+                                            >
+                                                {item.icon && <Icon iconNode={item.icon} className="mr-2 h-4 w-4" />}
+                                                {item.title}
+                                            </Link>
+                                            {page.url === item.href && (
+                                                <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
                                             )}
-                                        >
-                                            {item.icon && <Icon iconNode={item.icon} className="mr-2 h-4 w-4" />}
-                                            {item.title}
-                                        </Link>
-                                        {page.url === item.href && (
-                                            <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
-                                        )}
-                                    </NavigationMenuItem>
-                                ))}
-                            </NavigationMenuList>
+                                        </NavigationMenuItem>
+                                    ))}
+                                </NavigationMenuList>
+                            )}
                         </NavigationMenu>
                     </div>
 

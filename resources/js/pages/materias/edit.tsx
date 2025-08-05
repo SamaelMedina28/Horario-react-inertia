@@ -29,7 +29,6 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
       materias: materiasAnteriores
     }
   );
-  console.log(data);
 
   const agregarOtraMateria = () => setData('materias', [...data.materias, { id: 0, nombre: '' }]);
 
