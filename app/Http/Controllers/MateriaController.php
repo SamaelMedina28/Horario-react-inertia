@@ -71,7 +71,7 @@ class MateriaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Materia $materia)
+    public function update(Request $request)
     {
         $request->validate([
             'materias' => 'required|array',
@@ -83,10 +83,15 @@ class MateriaController extends Controller
             'materias.*.nombre.max' => 'El nombre de la materia debe tener menos de 255 caracteres',
         ]);
 
-        foreach ($request->materias as $materia) {
-            Materia::update([
-                'nombre' => $materia['nombre'],
-            ]);
+        foreach ($request->materias as $materiaData) {
+            if ($materiaData['id'] > 0) {
+                Materia::find($materiaData['id'])->update(['nombre' => $materiaData['nombre']]);
+            } else {
+                Materia::create([
+                    'user_id' => Auth::user()->id,
+                    'nombre' => $materiaData['nombre'],
+                ]);
+            }
         }
 
         return redirect()->route('dashboard');
