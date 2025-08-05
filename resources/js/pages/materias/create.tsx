@@ -46,37 +46,58 @@ export default function Create() {
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
       <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-        <form action="" className="flex justify-center flex-col gap-4 w-1/2 mx-auto" onSubmit={handleSubmit}>
+        <h1 className="text-2xl font-bold text-center">Crear Materia</h1>
+        <form action="" className="flex justify-center flex-col gap-4 w-full sm:w-3/4 md:max-w-2xl mx-auto" onSubmit={handleSubmit}>
           {data.materias.map((materia, index) => (
-            <div key={index}>
-              <Label htmlFor={`nombre-${index}`}>Nombre</Label>
+            <div key={index} className="space-y-1">
+              <Label htmlFor={`nombre-${index}`} className="text-zinc-700 dark:text-zinc-300">
+                Nombre de la materia
+              </Label>
               <Input
                 id={`nombre-${index}`}
                 type="text"
                 value={materia.nombre}
+                placeholder="Ej. Matemáticas"
                 onChange={(e) => {
                   const nuevasMaterias = [...data.materias];
                   nuevasMaterias[index].nombre = e.target.value;
                   setData('materias', nuevasMaterias);
                 }}
-
               />
               {(errors as Record<string, string>)[`materias.${index}.nombre`] && (
-                <span className="text-red-500">
+                <p className="text-sm text-red-500">
                   {(errors as Record<string, string>)[`materias.${index}.nombre`]}
-                </span>
+                </p>
               )}
             </div>
           ))}
-          <div className="flex justify-center gap-2">
-            <Button type="button" className="bg-green-500 hover:bg-green-600 text-white rounded-full" onClick={agregarOtraMateria}>
-              <Plus />
+
+          <div className="flex justify-center gap-2 mt-2">
+            <Button
+              type="button"
+              size="icon"
+              className="rounded-full p-2 bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-800 dark:hover:bg-green-700 dark:text-green-300 transition-all"
+              onClick={agregarOtraMateria}
+            >
+              <Plus className="w-5 h-5" />
             </Button>
-            <Button type="button" className="bg-red-500 hover:bg-red-600 text-white rounded-full" disabled={data.materias.length <= 1} onClick={eliminarUltimaMateria}>
-              <Trash />
+
+            <Button
+              type="button"
+              size="icon"
+              disabled={data.materias.length <= 1}
+              className="rounded-full p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
+              onClick={eliminarUltimaMateria}
+            >
+              <Trash className="w-5 h-5" />
             </Button>
           </div>
-          <Button type="submit">Guardar</Button>
+
+          <div className="mt-6 flex justify-center">
+            <Button type="submit" className="w-full md:w-auto px-8">
+              Guardar
+            </Button>
+          </div>
         </form>
       </div>
     </AppLayout>

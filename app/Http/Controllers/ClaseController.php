@@ -71,9 +71,7 @@ class ClaseController extends Controller
         ]);
 
         if($request->clases[0]['dia'] == 'Viernes' || $request->clases[0]['dia'] == 'viernes'){
-            Auth::user()->update([
-                'new' => false,
-            ]);
+            $this->updateNew();
         }
 
 
@@ -124,5 +122,13 @@ class ClaseController extends Controller
     public function destroy(Clase $clase)
     {
         //
+    }
+
+    public function updateNew(){
+        if(Auth::user()->new){
+            Auth::user()->update([
+                'new' => false,
+            ]);
+        }
     }
 }

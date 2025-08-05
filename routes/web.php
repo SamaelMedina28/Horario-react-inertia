@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified', 'is_new'])->group(function () {
     Route::post('materias', [MateriaController::class, 'store'])->name('materias.store');
     Route::get('clases/create/{dia}', [ClaseController::class, 'create'])->name('clases.create');
     Route::post('clases', [ClaseController::class, 'store'])->name('clases.store');
+    Route::post('clases/updateNew', [ClaseController::class, 'updateNew'])->name('clases.updateNew');
 });
 
 require __DIR__.'/settings.php';
