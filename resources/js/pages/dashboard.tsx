@@ -41,19 +41,19 @@ export default function Dashboard({ clases, materias }: Props) {
             <div className="flex w-full justify-center h-full flex-1 gap-4 rounded-xl p-4 overflow-x-auto">
                 <Swiper className="w-full" ref={swiperRef}>
                     <SwiperSlide>
-                        <CardMateria dia="Lunes" materias={materias} clases={clases.filter((clase) => clase.dia === 'Lunes')} className="w-1/2 mx-auto" />
+                        <CardMateria dia="Lunes" materias={materias} clases={clases.filter((clase) => clase.dia === 'Lunes')} className="sm:w-2/3 sm:max-w-xl mx-auto" />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <CardMateria dia="Martes" materias={materias} clases={clases.filter((clase) => clase.dia === 'Martes')} className="w-1/2 mx-auto" />
+                        <CardMateria dia="Martes" materias={materias} clases={clases.filter((clase) => clase.dia === 'Martes')} className="sm:w-1/2 sm:max-w-xl mx-auto" />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <CardMateria dia="Miercoles" materias={materias} clases={clases.filter((clase) => clase.dia === 'Miercoles')} className="w-1/2 mx-auto" />
+                        <CardMateria dia="Miercoles" materias={materias} clases={clases.filter((clase) => clase.dia === 'Miercoles')} className="sm:w-1/2 sm:max-w-xl mx-auto" />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <CardMateria dia="Jueves" materias={materias} clases={clases.filter((clase) => clase.dia === 'Jueves')} className="w-1/2 mx-auto" />
+                        <CardMateria dia="Jueves" materias={materias} clases={clases.filter((clase) => clase.dia === 'Jueves')} className="sm:w-1/2 sm:max-w-xl mx-auto" />
                     </SwiperSlide>
                     <SwiperSlide>
-                        <CardMateria dia="Viernes" materias={materias} clases={clases.filter((clase) => clase.dia === 'Viernes')} className="w-1/2 mx-auto" />
+                        <CardMateria dia="Viernes" materias={materias} clases={clases.filter((clase) => clase.dia === 'Viernes')} className="sm:w-1/2 sm:max-w-xl mx-auto" />
                     </SwiperSlide>
                 </Swiper>
             </div>
