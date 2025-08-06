@@ -85,7 +85,7 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
         <form onSubmit={handleSubmit} className="w-full sm:w-3/4 md:max-w-2xl mx-auto">
           <div className="space-y-6">
             {data.clases.map((clase, index) => (
-              <div key={index} className="rounded-lg shadow-sm">
+              <div key={index}>
                 <div className="mt-4 text-start font-medium text-muted-foreground">
                   Clase {index + 1}:
                 </div>
@@ -209,7 +209,7 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
                   </div>
                 </div>
                 {/* Linea divisoria */}
-                <div className="h-px md:my-6 my-4 w-full bg-gradient-to-r from-transparent via-neutral-400 to-transparent"></div>
+                <div className="h-px md:my-6 my-4 w-full mx-auto bg-gradient-to-r from-transparent via-neutral-400 to-transparent"></div>
               </div>
             ))}
           </div>

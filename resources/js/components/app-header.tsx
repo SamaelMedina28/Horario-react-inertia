@@ -2,7 +2,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Icon } from '@/components/icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { UserMenuContent } from '@/components/user-menu-content';
@@ -25,11 +25,6 @@ const mainNavItems: NavItem[] = [
         title: 'Materias',
         href: route('materias.edit'),
         icon: BookOpen,
-    },
-    {
-        title: 'Clases',
-        href: route('clases.edit', { dia: 'Lunes' }),
-        icon: Book,
     },
 ];
 
@@ -135,6 +130,46 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                             )}
                                         </NavigationMenuItem>
                                     ))}
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger>
+                                            <NavigationMenuItem className="relative flex h-full items-center">
+                                                <Button variant="ghost">
+                                                    <Book className="h-5 w-5" />
+                                                    Clases
+                                                    {page.url.startsWith('/clases') && (
+                                                        <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
+                                                    )}
+                                                </Button>
+                                            </NavigationMenuItem>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={route('clases.edit', { dia: 'Lunes' })}>
+                                                    Lunes
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={route('clases.edit', { dia: 'Martes' })}>
+                                                    Martes
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={route('clases.edit', { dia: 'Miercoles' })}>
+                                                    Miercoles
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={route('clases.edit', { dia: 'Jueves' })}>
+                                                    Jueves
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={route('clases.edit', { dia: 'Viernes' })}>
+                                                    Viernes
+                                                </Link>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </NavigationMenuList>
                             )}
                         </NavigationMenu>

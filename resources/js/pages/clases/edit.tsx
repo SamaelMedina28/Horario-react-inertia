@@ -15,18 +15,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: 'Clases',
-    href: '/dashboard',
-  },
-  {
-    title: 'Editar',
-    href: '/clases/edit',
-  },
-];
 
 export default function Edit({ clasesAnteriores, materias, dia }: {
+  
   clasesAnteriores: Array<{
     id: number,
     dia: string,
@@ -58,6 +49,16 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
       clases: clasesAnteriores
     }
   );
+  const breadcrumbs: BreadcrumbItem[] = [
+    {
+      title: 'Clases',
+      href: '/dashboard',
+    },
+    {
+      title: dia,
+      href: '#',
+    }
+  ];
   const agregarOtraClase = () => setData('clases', [
     ...data.clases,
     {
@@ -110,6 +111,9 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
         <p className="text-center text-muted-foreground">{dia}</p>
         <form onSubmit={handleSubmit} className="w-full sm:w-3/4 md:max-w-2xl mx-auto">
           <div className="space-y-6">
+          {data.clases.length === 0 && (
+            <p className="text-center text-muted-foreground">No hay clases programadas para el día de hoy</p>
+          )}
             {data.clases.map((clase, index) => (
               <div key={clase.id || `new-${index}`}>
                 <div className="mt-4 text-start font-medium text-muted-foreground">
