@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
-import { Plus, Trash } from 'lucide-react';
+import { LoaderCircle, Plus, Trash } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -23,7 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Create({ materias, dia }: { materias: Array<{ id: number, nombre: string }>, dia: string }) {
-  const { data, setData, errors, post } = useForm<
+  const { data, setData, errors, post, processing } = useForm<
     {
       clases: Array<{
         dia: string,
@@ -40,6 +41,8 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
       clases: [{ dia: dia, profesor: '', salon: '', edificio: '', hora_inicio: '12:00', hora_fin: '13:00', materia_id: '' }]
     }
   );
+
+  const [omitiendo, setOmitiendo] = useState(false);
 
   const calcularDiaSiguiente = () => {
     const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'];
@@ -68,6 +71,12 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
     });
   };
 
+  const handleOmitir = () => {
+    setOmitiendo(true);
+    setTimeout(() => {
+      router.get(route('clases.create', { dia: diaSiguiente }));
+    }, 200);
+  };
   const handleOmitirYTerminar = () => {
     post(route('clases.updateNew'), {
       onSuccess: () => {
@@ -79,7 +88,7 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
-      <div className="flex h-full flex-1 flex-col rounded-xl p-4 md:p-4 overflow-x-auto">
+      <div className={`flex h-full flex-1 flex-col rounded-xl p-4 md:p-4 overflow-x-auto transition-opacity duration-500 ${omitiendo ? 'opacity-0' : 'opacity-100'}`}>
       <h1 className="text-2xl font-bold text-center">Crear Clases</h1>
       <p className="text-center text-muted-foreground">{dia}</p>
         <form onSubmit={handleSubmit} className="w-full sm:w-3/4 md:max-w-2xl mx-auto">
@@ -240,13 +249,34 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
                 Omitir y terminar
               </Button>
             ) : (
-              <Button type="button" variant="secondary" className="w-full md:w-auto px-8" onClick={() => router.get(route('clases.create', { dia: diaSiguiente }))}>
-                Omitir
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full md:w-auto px-8"
+                  onClick={handleOmitir}
+                  disabled={omitiendo}
+                >
+                  {omitiendo ? (
+                    <>
+                      <LoaderCircle className="w-5 h-5 animate-spin mr-2" />
+                      Cargando...
+                    </>
+                  ) : (
+                    'Omitir'
+                  )}
+                </Button>
+
+            )}
+            {processing ? (
+              <Button disabled>
+                <LoaderCircle className="w-5 h-5 animate-spin" />
+                Guardando...
+              </Button>
+            ) : (
+              <Button type="submit" className="w-full md:w-auto px-8">
+                Guardar
               </Button>
             )}
-            <Button type="submit" className="w-full md:w-auto px-8">
-              Guardar
-            </Button>
           </div>
         </form>
       </div>

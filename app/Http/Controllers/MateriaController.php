@@ -22,6 +22,10 @@ class MateriaController extends Controller
      */
     public function create()
     {
+        $materiasAnteriores = Materia::where('user_id', Auth::user()->id)->get();
+        if (!$materiasAnteriores->isEmpty()) {
+            return redirect()->route('clases.create', ['dia' => 'Lunes']);
+        }
         return Inertia::render('materias/create');
     }
 

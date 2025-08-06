@@ -5,7 +5,7 @@ import { useForm } from '@inertiajs/react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Plus, Trash } from 'lucide-react';
+import { LoaderCircle, Plus, Trash } from 'lucide-react';
 import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -16,7 +16,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Create() {
-  const { data, setData, post, errors } = useForm<
+  const { data, setData, post, errors, processing } = useForm<
     {
       materias: Array<{ nombre: string }>
     }
@@ -94,9 +94,16 @@ export default function Create() {
           </div>
 
           <div className="mt-6 flex justify-center">
-            <Button type="submit" className="w-full md:w-auto px-8">
-              Guardar
-            </Button>
+            {processing ? (
+              <Button disabled>
+                <LoaderCircle className="w-5 h-5 animate-spin" />
+                Guardando...
+              </Button>
+            ) : (
+              <Button type="submit" className="w-full md:w-auto px-8" disabled={data.materias.length < 1}>
+                Guardar
+              </Button>
+            )}
           </div>
         </form>
       </div>

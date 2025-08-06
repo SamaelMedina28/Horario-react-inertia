@@ -10,7 +10,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Book } from 'lucide-react';
+import { BookOpen, LayoutGrid, Menu, Book } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import AppearanceToggleDropdown from './appearance-dropdown';
@@ -28,18 +28,7 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
-const rightNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
+
 
 const activeItemStyles = 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
@@ -81,21 +70,39 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                     <span>{item.title}</span>
                                                 </Link>
                                             ))}
-                                        </div>
-
-                                        <div className="flex flex-col space-y-4">
-                                            {rightNavItems.map((item) => (
-                                                <a
-                                                    key={item.title}
-                                                    href={item.href}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="flex items-center space-x-2 font-medium"
-                                                >
-                                                    {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
-                                                    <span>{item.title}</span>
-                                                </a>
-                                            ))}
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger className="flex items-center font-medium">
+                                                    <Book className="h-5 w-5 mr-2" />
+                                                    Clases
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="mt-2 w-40">
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('clases.edit', { dia: 'Lunes' })}>
+                                                            Lunes
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('clases.edit', { dia: 'Martes' })}>
+                                                            Martes
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('clases.edit', { dia: 'Miercoles' })}>
+                                                            Miercoles
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('clases.edit', { dia: 'Jueves' })}>
+                                                            Jueves
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem asChild>
+                                                        <Link href={route('clases.edit', { dia: 'Viernes' })}>
+                                                            Viernes
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +143,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 <Button variant="ghost">
                                                     <Book className="h-5 w-5" />
                                                     Clases
-                                                    {page.url.startsWith('/clases') && (
+                                                    {page.url.startsWith('/clases/edit') && (
                                                         <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
                                                     )}
                                                 </Button>

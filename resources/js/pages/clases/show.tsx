@@ -4,13 +4,8 @@ import { Head, Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { BorderBeam } from '@/components/magicui/border-beam';
-import { ShimmerButton } from "@/components/magicui/shimmer-button";
-const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: 'Clases',
-    href: '/clases',
-  },
-];
+import { Button } from '@/components/ui/button';
+
 type Props = {
   clase: {
     id: number,
@@ -29,6 +24,16 @@ type Props = {
 }
 
 export default function Show({ clase, materia }: Props) {
+  const breadcrumbs: BreadcrumbItem[] = [
+    {
+      title: 'Clases',
+      href: route('dashboard'),
+    },
+    {
+      title: materia.nombre,
+      href: route('clases.show', clase.id),
+    },
+  ];
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
@@ -73,7 +78,7 @@ export default function Show({ clase, materia }: Props) {
           />
         </Card>
         <Link href={route('dashboard')} className="flex items-center">
-            <ShimmerButton className="flex items-center dark:text-white py-1.5 px-3"><ChevronLeft/></ShimmerButton>
+            <Button variant="outline" size="icon" className="flex items-center justify-center rounded-full"><ChevronLeft/></Button>
         </Link>
       </div>
     </AppLayout>

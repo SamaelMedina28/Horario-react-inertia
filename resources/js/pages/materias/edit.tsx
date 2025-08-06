@@ -5,13 +5,13 @@ import { useForm } from '@inertiajs/react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Plus, Trash } from 'lucide-react';
+import { ChevronLeft, LoaderCircle, Plus, Trash } from 'lucide-react';
 import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Materias',
-    href: '/materias',
+    href: '/dashboard',
   },
   {
     title: 'Editar',
@@ -20,9 +20,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array<{ id: number; nombre: string }> }) {
-  const { data, setData, post, errors, delete:destroy } = useForm<
+  const { data, setData, post, errors, delete: destroy, processing } = useForm<
     {
-      materias: Array<{ id: number ; nombre: string }>
+      materias: Array<{ id: number; nombre: string }>
     }
   >(
     {
@@ -71,23 +71,23 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
                   type="text"
                   value={materia.nombre}
                   placeholder="Ej. Matemáticas"
-                onChange={(e) => {
-                  const nuevasMaterias = [...data.materias];
-                  nuevasMaterias[index].nombre = e.target.value;
-                  setData('materias', nuevasMaterias);
-                }}
-              />
-              {materia.id !== 0 && (
-                <Button
-                  type="button"
-                  size="icon"
-                  className="rounded-full p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
-                  onClick={() => handleDelete(materia.id)}
-                >
-                  <Trash className="w-5 h-5" />
-                </Button>
-              )}
-              
+                  onChange={(e) => {
+                    const nuevasMaterias = [...data.materias];
+                    nuevasMaterias[index].nombre = e.target.value;
+                    setData('materias', nuevasMaterias);
+                  }}
+                />
+                {materia.id !== 0 && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    className="rounded-md p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
+                    onClick={() => handleDelete(materia.id)}
+                  >
+                    <Trash className="w-5 h-5" />
+                  </Button>
+                )}
+
               </div>
               {(errors as Record<string, string>)[`materias.${index}.nombre`] && (
                 <p className="text-sm text-red-500">
@@ -118,10 +118,26 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
             </Button>
           </div>
 
-          <div className="mt-6 flex justify-center">
-            <Button type="submit" className="w-full md:w-auto px-8">
-              Actualizar
-            </Button>
+          <div className="flex justify-center mt-3">
+            {data.materias.length === materiasAnteriores.length ? (
+              <Button
+                variant="secondary"
+                onClick={() => router.get(route('dashboard'))}
+              >
+                <ChevronLeft className="w-5 h-5" />
+                Volver
+              </Button>
+            ) : (
+              processing ? (
+                <Button disabled>
+                  <LoaderCircle className="w-5 h-5 animate-spin" />
+                  Guardando...
+                </Button>
+              ) : (
+                <Button type="submit" className="w-full md:w-auto px-8">
+                  Actualizar
+                </Button>
+              ))}
           </div>
         </form>
       </div>

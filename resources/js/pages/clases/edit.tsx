@@ -1,12 +1,12 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { useForm } from '@inertiajs/react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
-import { Plus, Trash } from 'lucide-react';
+import { ChevronLeft, LoaderCircle, Plus, Trash } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -17,7 +17,6 @@ import {
 
 
 export default function Edit({ clasesAnteriores, materias, dia }: {
-  
   clasesAnteriores: Array<{
     id: number,
     dia: string,
@@ -31,7 +30,7 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
   materias: Array<{ id: number, nombre: string }>,
   dia: string
 }) {
-  const { data, setData, errors, post, delete: destroy } = useForm<
+  const { data, setData, errors, post, delete: destroy, processing } = useForm<
     {
       clases: Array<{
         id: number,
@@ -62,7 +61,7 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
   const agregarOtraClase = () => setData('clases', [
     ...data.clases,
     {
-      id: 0, // ID 0 indica nueva clase
+      id: 0,
       dia: dia,
       profesor: '',
       salon: '',
@@ -74,7 +73,6 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
   ]);
 
   const eliminarUltimaClase = () => {
-    if (data.clases.length === 1) return;
     setData('clases', data.clases.slice(0, -1));
   };
 
@@ -280,9 +278,29 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
           </div>
 
           <div className="mt-6 flex justify-center">
-            <Button type="submit" className="w-full md:w-auto px-8">
-              Guardar Cambios
-            </Button>
+            {data.clases.length === clasesAnteriores.length ? (
+              <Link
+                href={route('dashboard')}
+                className="flex items-center gap-2"
+              >
+                <Button
+                  variant="secondary"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                  Volver
+                </Button>
+              </Link>
+            ) : (
+              processing ? (
+                <Button disabled>
+                  <LoaderCircle className="w-5 h-5 animate-spin" />
+                  Guardando...
+                </Button>
+              ) : (
+                <Button type="submit" className="w-full md:w-auto px-8">
+                  Actualizar
+                </Button>
+              ))}
           </div>
         </form>
       </div>
