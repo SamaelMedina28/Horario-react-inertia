@@ -23,7 +23,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Materias',
-        href: route('materias.edit'),
+        href: '/materias/edit',
         icon: BookOpen,
     },
 ];
@@ -131,7 +131,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         </NavigationMenuItem>
                                     ))}
                                     <DropdownMenu>
-                                        <DropdownMenuTrigger>
+                                        <DropdownMenuTrigger asChild>
                                             <NavigationMenuItem className="relative flex h-full items-center">
                                                 <Button variant="ghost">
                                                     <Book className="h-5 w-5" />
