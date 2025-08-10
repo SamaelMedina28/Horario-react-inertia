@@ -119,7 +119,7 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
           </div>
 
           <div className="flex justify-center mt-3">
-            {data.materias.length === materiasAnteriores.length ? (
+            {data.materias.length === 0 ? (
               <Button
                 variant="secondary"
                 onClick={() => router.get(route('dashboard'))}
