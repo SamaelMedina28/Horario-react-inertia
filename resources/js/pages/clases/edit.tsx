@@ -278,7 +278,7 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
           </div>
 
           <div className="mt-6 flex justify-center">
-            {data.clases.length === clasesAnteriores.length ? (
+            {data.clases.length === 0 ? (
               <Link
                 href={route('dashboard')}
                 className="flex items-center gap-2"
