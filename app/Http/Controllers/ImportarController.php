@@ -209,7 +209,7 @@ class ImportarController extends Controller
             return redirect()->route('dashboard')->with('success', 'Horario importado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
-            dd("Error atrapado: ", $e->getMessage());
+            return back()->withErrors(['error' => 'Error al guardar las materias: ' . $e->getMessage()]);
         }
     }
 }
