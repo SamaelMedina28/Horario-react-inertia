@@ -33,6 +33,18 @@ Route::middleware(['auth', 'verified', 'is_new'])->group(function () {
         return Inertia::render('inicio');
     })->name('inicio');
 
+    // ? Exportar por PDF
+    // Vamos a ocupar las vistas:
+    // exportar - get
+    // carga - post
+    // Confirmacion - get
+    // creacion de horario - post
+    Route::get('exportar', [ExportarController::class, 'export'])->name('exportar');
+    Route::post('carga', [ExportarController::class, 'upload'])->name('carga');
+    Route::get('confirmacion', [ExportarController::class, 'confirm'])->name('confirmacion');
+    Route::post('creacion', [ExportarController::class, 'createSchedule'])->name('creacion');
+    
+
     // ? Materias
     Route::get('materias/create', [MateriaController::class, 'create'])->name('materias.create');
     Route::post('materias', [MateriaController::class, 'store'])->name('materias.store');

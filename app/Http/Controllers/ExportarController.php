@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ExportarController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Vista donde se sube el archivo PDF con el horario.
      */
-    public function index()
+    public function export()
     {
         //
+        return Inertia::render('export/index');
     }
 
     /**

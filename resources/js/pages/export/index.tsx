@@ -12,10 +12,10 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
 import { CalendarPlus, FileUp, ArrowRight, BookOpen } from 'lucide-react';
 
-export default function Inicio() {
+export default function Index() {
     return (
         <AppLayout>
-            <Head title="Inicio" />
+            <Head title="Exportar" />
 
             <div className="flex h-full flex-1 flex-col items-center mt-10 gap-8 p-6">
                 {/* Header */}
@@ -107,12 +107,9 @@ export default function Inicio() {
                             <Button
                                 variant="secondary"
                                 className="w-full"
-                                asChild
                             >
-                                <Link href={route('exportar')}>
-                                    <FileUp className="h-4 w-4" />
-                                    Subir PDF
-                                </Link>
+                                <FileUp className="h-4 w-4" />
+                                Subir PDF
                             </Button>
                         </CardFooter>
                     </Card>
