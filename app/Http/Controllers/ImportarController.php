@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clase;
+use App\Models\Materia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Smalot\PdfParser\Parser;
 
@@ -138,35 +142,74 @@ class ImportarController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+    private function normalizeDay(string $day): string
+{
+    // Convertir a minusculas
+    $day = mb_strtolower($day, 'UTF-8');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    // Reemplazar acentos
+    $day = str_replace([
+        'á', 'é', 'í', 'ó', 'ú',
+        'Á', 'É', 'Í', 'Ó', 'Ú'
+    ], [
+        'a', 'e', 'i', 'o', 'u',
+        'A', 'E', 'I', 'O', 'U'
+    ], $day);
+
+    // Solo primera letra mayuscula
+    return ucfirst($day);
+}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function createSchedule(Request $request)
     {
-        //
-    }
+        // Nos van a venir muchas materias repetidas, asi que las normalizamos
+        $materias_sin_duplicados = collect($request->clases)->unique('nombre_materia');
+        $clases = $request->clases;
+        $userId = Auth::id();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Iniciar una transaccion
+        DB::beginTransaction();
+        try {
+            foreach ($materias_sin_duplicados as $materia) {
+                Materia::create([
+                    'nombre' => $materia['nombre_materia'],
+                    'user_id' => $userId,
+                ]);
+            }
+
+            foreach ($clases as $clase) {
+                Clase::create([
+                    'materia_id' => Auth::user()->materias()->where('nombre', $clase['nombre_materia'])->first()->id,
+                    'user_id' => $userId,
+                    'profesor' => $clase['profesor'],
+                    // 'grupo' => $clase['grupo'],
+                    // 'subgrupo' => $clase['subgrupo'],
+                    'salon' => $clase['salon'],
+                    // Sanitizar dia para quitarle los acentos y poner solo la primera mayuscula
+                    'dia' => $this->normalizeDay($clase['dia']),
+                    'hora_inicio' => $clase['hora_inicio'],
+                    'hora_fin' => $clase['hora_fin'],
+                    // 'tipo' => $clase['tipo'],
+                    // 'etapa' => $clase['etapa'],
+                    'edificio' => "N/A"
+                ]);
+            }
+            if (Auth::user()->new) {
+                Auth::user()->update([
+                    'new' => false,
+                ]);
+            }
+            DB::commit();
+
+            
+            // Si todo salio bien, redireccionamos al usuario a la vista del horario
+            return redirect()->route('dashboard')->with('success', 'Horario importado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd("Error atrapado: ", $e->getMessage());
+        }
     }
 }
