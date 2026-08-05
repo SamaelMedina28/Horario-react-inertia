@@ -110,7 +110,9 @@ class ImportarController extends Controller
             //     'clases' => $clases_extraidas
             // ]);
 
-            
+            return redirect()->route('confirmacion', [
+                'clases' => $clases_extraidas
+            ]);
 
         } catch (\Exception $e) {
             // Si algo falla, regresamos a la vista anterior con un mensaje de error
@@ -129,9 +131,11 @@ class ImportarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function confirm(Request $request)
     {
-        //
+        return Inertia::render('import/confirm', [
+            'clases' => $request->clases
+        ]);
     }
 
     /**

@@ -36,10 +36,10 @@ Route::middleware(['auth', 'verified', 'is_new'])->group(function () {
     // carga - post
     // Confirmacion - get
     // creacion de horario - post
-    Route::get('importar', [ImportarController::class, 'import'])->name('importar');
-    Route::post('carga', [ImportarController::class, 'upload'])->name('carga');
-    Route::get('confirmacion', [ImportarController::class, 'confirm'])->name('confirmacion');
-    Route::post('creacion', [ImportarController::class, 'createSchedule'])->name('creacion');
+    Route::get('importar', [ImportarController::class, 'import'])->name('importar'); // Vista para subir el archivo
+    Route::post('carga', [ImportarController::class, 'upload'])->name('carga'); // Procesar el archivo y sacar la informacion de las clases
+    Route::get('confirmacion', [ImportarController::class, 'confirm'])->name('confirmacion'); // Preguntarle al usuario si el horario sacado es el correcto y pintarlo en pantalla
+    Route::post('creacion', [ImportarController::class, 'createSchedule'])->name('creacion'); // Cargar los datos confirmados en la base de datos
     
 
     // ? Materias
