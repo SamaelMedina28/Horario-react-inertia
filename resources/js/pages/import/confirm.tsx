@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 
 interface Clase {
+    [key: string]: string;
     clave_materia: string;
     nombre_materia: string;
     profesor: string;
@@ -35,16 +36,6 @@ interface Clase {
 }
 
 const ORDEN_DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-
-const COLOR_DIA: Record<string, string> = {
-    Lunes:     'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800',
-    Martes:    'bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800',
-    Miércoles: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
-    Jueves:    'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800',
-    Viernes:   'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800',
-    Sábado:    'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-200 dark:border-cyan-800',
-    Domingo:   'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800',
-};
 
 export default function Confirmar({ clases }: { clases: Clase[] }) {
     const { post, processing } = useForm({ clases });
@@ -109,13 +100,6 @@ export default function Confirmar({ clases }: { clases: Clase[] }) {
                                         key={idx}
                                         className="flex flex-col gap-0 py-0 overflow-hidden hover:shadow-md transition-shadow duration-200"
                                     >
-                                        {/* Franja de color del día */}
-                                        <div
-                                            className={[
-                                                'h-1 w-full',
-                                                COLOR_DIA[dia]?.split(' ')[0]?.replace('/10', '/60') ?? 'bg-muted',
-                                            ].join(' ')}
-                                        />
 
                                         <CardHeader className="px-4 pt-3 pb-2">
                                             <div className="flex items-start justify-between gap-2">
