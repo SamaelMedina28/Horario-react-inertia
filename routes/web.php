@@ -1,13 +1,10 @@
 <?php
 
 use App\Http\Controllers\ClaseController;
-use App\Http\Controllers\ExportarController;
+use App\Http\Controllers\ImportarController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MateriaController;
-use App\Models\Clase;
-use App\Models\Materia;
-use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -39,10 +36,10 @@ Route::middleware(['auth', 'verified', 'is_new'])->group(function () {
     // carga - post
     // Confirmacion - get
     // creacion de horario - post
-    Route::get('exportar', [ExportarController::class, 'export'])->name('exportar');
-    Route::post('carga', [ExportarController::class, 'upload'])->name('carga');
-    Route::get('confirmacion', [ExportarController::class, 'confirm'])->name('confirmacion');
-    Route::post('creacion', [ExportarController::class, 'createSchedule'])->name('creacion');
+    Route::get('importar', [ImportarController::class, 'import'])->name('importar');
+    Route::post('carga', [ImportarController::class, 'upload'])->name('carga');
+    Route::get('confirmacion', [ImportarController::class, 'confirm'])->name('confirmacion');
+    Route::post('creacion', [ImportarController::class, 'createSchedule'])->name('creacion');
     
 
     // ? Materias

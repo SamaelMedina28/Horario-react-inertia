@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ExportarController extends Controller
+class ImportarController extends Controller
 {
     /**
      * Vista donde se sube el archivo PDF con el horario.
      */
-    public function export()
+    public function import()
     {
         //
-        return Inertia::render('export/index');
+        return Inertia::render('import/index');
     }
 
     /**

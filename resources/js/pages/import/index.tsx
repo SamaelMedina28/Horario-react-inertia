@@ -15,7 +15,7 @@ import { CalendarPlus, FileUp, ArrowRight, BookOpen } from 'lucide-react';
 export default function Index() {
     return (
         <AppLayout>
-            <Head title="Exportar" />
+            <Head title="Importar" />
 
             <div className="flex h-full flex-1 flex-col items-center mt-10 gap-8 p-6">
                 {/* Header */}
@@ -25,7 +25,7 @@ export default function Index() {
                         <span>Panel de horarios</span>
                     </div>
                     <h1 className="text-3xl font-bold tracking-tight">
-                        Carga tu horario
+                        Importar Horario
                     </h1>
                     <p className="text-muted-foreground max-w-sm mx-auto text-sm">
                         Elige cómo quieres registrar tu horario escolar. Puedes hacerlo de forma manual o importarlo desde un PDF.
