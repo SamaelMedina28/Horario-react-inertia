@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClaseController;
+use App\Http\Controllers\ExportarController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MateriaController;
@@ -14,11 +15,11 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', 'is_old'])->group(function () {
     Route::get('dashboard', [ClaseController::class, 'index'])->name('dashboard');
-    // ? Materias   
+    // ? Materias
     Route::get('materias/edit', [MateriaController::class, 'edit'])->name('materias.edit');
     Route::post('materias/update', [MateriaController::class, 'update'])->name('materias.update');
     Route::delete('materias/{materia}', [MateriaController::class, 'destroy'])->name('materias.destroy');
-    
+
     // ? Clases
     Route::get('clases/edit/{dia}', [ClaseController::class, 'edit'])->name('clases.edit');
     Route::post('clases/update', [ClaseController::class, 'update'])->name('clases.update');
@@ -27,6 +28,11 @@ Route::middleware(['auth', 'verified', 'is_old'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'is_new'])->group(function () {
+    // ? Pagina inicial para decidir si exportara las materias o las ingresara manualmente
+    Route::get('inicio', function () {
+        return Inertia::render('inicio');
+    })->name('inicio');
+
     // ? Materias
     Route::get('materias/create', [MateriaController::class, 'create'])->name('materias.create');
     Route::post('materias', [MateriaController::class, 'store'])->name('materias.store');

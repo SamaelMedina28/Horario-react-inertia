@@ -17,7 +17,8 @@ class IsOld
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->new) {
-            return redirect()->route('materias.create');
+            // return redirect()->route('materias.create');
+            return redirect()->route('inicio');
         }
         return $next($request);
     }
