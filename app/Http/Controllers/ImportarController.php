@@ -12,7 +12,6 @@ class ImportarController extends Controller
      */
     public function import()
     {
-        //
         return Inertia::render('import/index');
     }
 

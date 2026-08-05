@@ -109,7 +109,7 @@ export default function Inicio() {
                                 className="w-full"
                                 asChild
                             >
-                                <Link href={route('exportar')}>
+                                <Link href={route('importar')}>
                                     <FileUp className="h-4 w-4" />
                                     Subir PDF
                                 </Link>
