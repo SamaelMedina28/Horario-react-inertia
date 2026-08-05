@@ -106,7 +106,11 @@ class ImportarController extends Controller
             });
 
             // 5. Devolvemos los datos a una nueva vista de React (ej. 'Resultados')
-            dd($clases_extraidas);
+            // return response()->json([
+            //     'clases' => $clases_extraidas
+            // ]);
+
+            
 
         } catch (\Exception $e) {
             // Si algo falla, regresamos a la vista anterior con un mensaje de error
