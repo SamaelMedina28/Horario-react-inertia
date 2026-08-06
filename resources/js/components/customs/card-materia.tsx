@@ -1,4 +1,4 @@
-import React from 'react'
+import { formatHora } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card'
 import { Link } from '@inertiajs/react'
 import { Ban } from 'lucide-react'
@@ -40,7 +40,7 @@ export default function CardMateria({ dia, materias, clases, className }: Props)
             <Card>
               <CardContent>
                 <p>{materias.find((materia) => materia.id === clase.materia_id)?.nombre}</p>
-                <span>{clase.hora_inicio}</span> - <span>{clase.hora_fin}</span>
+                <span>{formatHora(clase.hora_inicio)}</span> - <span>{formatHora(clase.hora_fin)}</span>
               </CardContent>
             </Card>
           </Link>

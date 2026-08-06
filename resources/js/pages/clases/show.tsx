@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
+import { formatHora } from '@/lib/utils';
 import { ChevronLeft } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { BorderBeam } from '@/components/magicui/border-beam';
@@ -60,11 +61,11 @@ export default function Show({ clase, materia }: Props) {
               </div>
               <div className="my-2">
                 <strong>Hora inicio:</strong>
-                <p>{clase.hora_inicio}</p>
+                <p>{formatHora(clase.hora_inicio)}</p>
               </div>
               <div className="my-2">
                 <strong>Hora fin:</strong>
-                <p>{clase.hora_fin}</p>
+                <p>{formatHora(clase.hora_fin)}</p>
               </div>
             </div>
           </CardContent>
