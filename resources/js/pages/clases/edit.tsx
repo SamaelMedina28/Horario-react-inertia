@@ -14,6 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 
 export default function Edit({ clasesAnteriores, materias, dia }: {
@@ -251,15 +252,34 @@ export default function Edit({ clasesAnteriores, materias, dia }: {
                                 </div>
                                 {clase.id !== 0 && (
                                     <div className="flex justify-end mt-2">
-                                        <Button
-                                            type="button"
-                                            size="icon"
-                                            variant="ghost"
-                                            className="rounded-full p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
-                                            onClick={() => handleDelete(clase.id)}
-                                        >
-                                            <Trash />
-                                        </Button>
+                                        <Dialog>
+
+                                        <DialogTrigger>
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                className="rounded-md p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
+                                            >
+                                                <Trash className="w-5 h-5" />
+                                            </Button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>¿Estás seguro de que quieres eliminar esta clase?</DialogTitle>
+                                                <DialogDescription>
+                                                    Esta acción no se puede deshacer. Esto eliminará permanentemente la clase de nuestros registros.
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <DialogFooter>
+                                                <DialogClose asChild>
+                                                    <Button variant="outline">Cancelar</Button>
+                                                </DialogClose>
+                                                <Button variant="destructive" onClick={() => handleDelete(clase.id)}>
+                                                    Eliminar
+                                                </Button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                     </div>
                                 )}
                                 <div className="h-px md:my-6 my-4 w-full bg-gradient-to-r from-transparent via-neutral-400 to-transparent"></div>
