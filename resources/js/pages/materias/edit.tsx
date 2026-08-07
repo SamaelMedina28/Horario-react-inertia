@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { BookOpen, ChevronLeft, LoaderCircle, Plus, Trash } from 'lucide-react';
 import { router } from '@inertiajs/react';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -87,14 +89,34 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
                                     }}
                                 />
                                 {materia.id !== 0 && (
-                                    <Button
-                                        type="button"
-                                        variant="destructive"
-                                        className="rounded-md p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
-                                        onClick={() => handleDelete(materia.id)}
-                                    >
-                                        <Trash className="w-5 h-5" />
-                                    </Button>
+                                    <Dialog>
+
+                                        <DialogTrigger>
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                className="rounded-md p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
+                                            >
+                                                <Trash className="w-5 h-5" />
+                                            </Button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>¿Estás seguro de que quieres eliminar esta materia?</DialogTitle>
+                                                <DialogDescription>
+                                                    Esta acción no se puede deshacer. Esto eliminará permanentemente la materia y las clases asociadas a ella.
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <DialogFooter>
+                                                <DialogClose asChild>
+                                                    <Button variant="outline">Cancelar</Button>
+                                                </DialogClose>
+                                                <Button variant="destructive" onClick={() => handleDelete(materia.id)}>
+                                                    Eliminar
+                                                </Button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                 )}
 
                             </div>
