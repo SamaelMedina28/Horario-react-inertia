@@ -57,7 +57,7 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col mt-1 items-center gap-8 p-6">
+            <div className="flex h-full flex-1 flex-col items-center gap-8 p-6">
                 {/* Header */}
                 <div className="text-center space-y-2">
                     <div className="inline-flex items-center gap-2 text-muted-foreground text-sm mb-2">
@@ -67,9 +67,6 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
                     <h1 className="text-3xl font-bold tracking-tight">
                         Editar Materias
                     </h1>
-                    <p className="text-muted-foreground max-w-sm mx-auto text-sm">
-                        Escribe los nombres de tus materias, puedes agregar o quitar materias.
-                    </p>
                 </div>
                 <form action="" className="flex justify-center flex-col gap-4 w-full sm:w-3/4 md:max-w-2xl mx-auto" onSubmit={handleSubmit}>
                     {data.materias.map((materia, index) => (
