@@ -78,6 +78,7 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
         }, 200);
     };
     const handleOmitirYTerminar = () => {
+        setOmitiendo(true);
         post(route('clases.updateNew'), {
             onSuccess: () => {
                 router.get(route('dashboard'));
@@ -261,7 +262,7 @@ export default function Create({ materias, dia }: { materias: Array<{ id: number
                     </div>
                     <div className="mt-6 flex justify-center gap-2">
                         {diaSiguiente == 'Lunes' ? (
-                            <Button type="button" variant="secondary" className="w-full md:w-auto px-8" onClick={handleOmitirYTerminar}>
+                            <Button type="button" variant="secondary" className="w-full md:w-auto px-8" onClick={handleOmitirYTerminar} disabled={omitiendo}>
                                 Omitir y terminar
                             </Button>
                         ) : (
