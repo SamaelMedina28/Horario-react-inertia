@@ -19,7 +19,9 @@ type Props = {
 export default function CardMateria({ dia, materias, clases, className }: Props) {
   if (clases.length === 0) return (
     <div className={`flex flex-col gap-4 text-center sm:w-2/3 sm:max-w-xl mx-auto`}>
-      <h1>{dia}</h1>
+      <h1 className='text-xl tracking-tight mt-4'>
+        {dia}
+      </h1>
       <Card className="h-full flex items-center justify-center">
         <CardContent className="flex flex-col items-center gap-3 text-center">
           <Ban className="w-10 h-10 text-neutral-400 dark:text-neutral-500" />
@@ -34,7 +36,9 @@ export default function CardMateria({ dia, materias, clases, className }: Props)
   return (
     <>
       <div className={`flex flex-col gap-4 text-center ${className}`}>
-        <h1>{dia}</h1>
+        <h1 className='text-xl tracking-tight mt-4'>
+          {dia}
+        </h1>
         {clases.map((clase) => (
           <Link key={clase.id} href={route('clases.show', { id: clase.id })}>
             <Card>
