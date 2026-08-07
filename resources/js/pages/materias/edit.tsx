@@ -71,6 +71,9 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
                     </h1>
                 </div>
                 <form action="" className="flex justify-center flex-col gap-4 w-full sm:w-3/4 md:max-w-2xl mx-auto" onSubmit={handleSubmit}>
+                    {data.materias.length === 0 && (
+                        <p className="text-center text-muted-foreground">No hay materias registradas</p>
+                    )}
                     {data.materias.map((materia, index) => (
                         <div key={index} className="space-y-1">
                             <Label htmlFor={`nombre-${index}`} className="text-zinc-700 dark:text-zinc-300">
@@ -141,7 +144,7 @@ export default function Edit({ materiasAnteriores }: { materiasAnteriores: Array
                         <Button
                             type="button"
                             size="icon"
-                            disabled={data.materias.length <= materiasAnteriores.length}
+                            disabled={data.materias.length <= materiasAnteriores.length || data.materias.length === 1}
                             className="rounded-full p-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 dark:text-red-300 transition-all disabled:opacity-40"
                             onClick={eliminarUltimaMateria}
                         >
